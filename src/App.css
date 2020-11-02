@@ -1,38 +1,150 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: calibri;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.wrapper {
+  width: 330px;
+  height: 550px;
+  background-color: rgb(54, 54, 56);
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+  border-radius: 20px;
+  /* position: absolute;
+  top: 50%;
+  left: 85%;
+  transform: translate(-50%, -50%); */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.head {
+  width: 100%;
+  height: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+h1 {
+  margin: 20px 15px 0 0;
   color: white;
+  text-align: right;
+  font-size: 25px;
 }
 
-.App-link {
-  color: #61dafb;
+.chat-body {
+  width: 95%;
+  height: 315px;
+  overflow-y: auto;
+  background-color: rgba(83, 81, 81, 0.8);
+  margin-top: 105px;
+  margin-left: 8px;
+  border-radius: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.bot-chat {
+  padding: 3px;
+  margin: 5px;
+  float: left;
+  max-width: 90%;
+  display: table;
+  clear: both;
+  margin-left: 15px;
+  background-color: #edefed;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.user-chat {
+  padding: 3px;
+  margin: 5px;
+  float: right;
+  max-width: 70%;
+  background-color: rgb(39, 39, 39);
+  border-radius: 8px;
+  color: white;
+  margin-right: 15px;
+  display: table;
+  clear: both;
+  font-size: 15px;
+}
+
+.inputSubmit {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(54, 54, 56);
+  border-radius: 20px;
+}
+
+.inputText {
+  width: 95%;
+  outline: none;
+  border: none;
+  padding: 10px;
+  border-radius: 50px;
+  margin: 7px 0 10px 10px;
+}
+
+.bot-links {
+  padding: 3px;
+  padding: 3px;
+  margin: 5px;
+  float: left;
+  max-width: 90%;
+  display: table;
+  clear: both;
+  color: white;
+
+  margin-left: 15px;
+  border-radius: 8px;
+  font-size: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(223, 223, 223, 0.836);
+  border-right: none;
+  border-left: none;
+}
+
+::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 10px;
+}
+
+::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 10px;
+}
+
+.edward-logo {
+  background-image: url("./scholar.png");
+  position: absolute;
+  top: 16%;
+  left: 82%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 75px;
+  height: 75px;
+}
+
+.send-button {
+  background-image: url("./send-button.png");
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 18px;
+  height: 18px;
+  right: 3%;
+  top: 88%;
+  cursor: pointer;
 }
