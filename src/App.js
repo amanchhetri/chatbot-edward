@@ -3,14 +3,34 @@ import './App.css';
 import BotMessage from './components/BotMessages/BotMessage'
 import UserMessage from './components/UserMessages/UserMessage'
 
+const widgetStartingOptions = [
+  {
+    _id: "5f9fdbd9951c83251a9c4a79",
+    label: "Test1",
+    optionInfo: "TestInfo",
+    __v: 0,
+    createdAt: "2020-11-02T10:13:45.610Z"
+
+  },
+  {
+    _id: "5f9fdc7d002ee5259ab96d8c",
+    label: "Test2",
+    optionInfo: "TestInfo2",
+    __v: 0,
+    createdAt: "2020-11-02T10:16:29.080Z"
+  }
+];
+
+
 class App extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       message: '',
       finalMsg: '',
-      submitted: false
+      submitted: false,
+      botMessages: widgetStartingOptions
     }
   }
 
@@ -28,9 +48,10 @@ class App extends Component {
   }
 
   render() {
+    const { botMessages } = this.state;
     let userMsg = null;
     const show = this.state.submitted;
-    if(show) {
+    if (show) {
       userMsg = <UserMessage message={this.state.finalMsg} />
     }
     return (
@@ -40,16 +61,31 @@ class App extends Component {
         </div>
         <span className="edward-logo" />
         <div className="chat-body">
-          <BotMessage />
+          <BotMessage botMessages={botMessages} onClick={this._handleLinkClick} />
           {userMsg}
         </div>
         <form className="inputSubmit" onSubmit={this.handleSubmit}>
-          <input type="text" className="inputText" placeholder="Enter your text..." onChange={this.handleChange} 
-          value={this.state.message} name="message" />
+          <input
+            type="text"
+            className="inputText"
+            placeholder="Enter your text..."
+            onChange={this.handleChange}
+            value={this.state.message}
+            name="message"
+          />
           <span onClick={this.handleSubmit} className="send-button" />
         </form>
       </div>
     )
+  }
+
+  _handleLinkClick = async (optionId) => {
+    const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
+    const response = await fetch(url);
+    const body = await response.json();
+    const { widgetChatbotOption: { childOptions = [] } } = body;
+    this.setState({ botMessages: [...this.state.botMessages, ...childOptions] });
+
   }
 }
 

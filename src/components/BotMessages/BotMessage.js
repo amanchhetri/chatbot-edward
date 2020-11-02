@@ -1,11 +1,26 @@
 import React from 'react'
 //import './BotMessage.css'
 
-function BotMessage() {
+function BotMessage(props) {
+    const { botMessages, onClick } = props;
+
+    return (
+        <div>
+            {botMessages.map(message => {
+                const { _id, label } = message;
+                return (
+                    <div className="bot-links" key={_id}>
+                        <span onClick={() => onClick(_id)}>{label}</span>
+                    </div>
+                );
+            })}
+        </div>
+    );
+
     return (
         <div>
             <div className="bot-chat">
-                Hello, dear students my name is Sir Edward 
+                Hello, dear students my name is Sir Edward
             </div>
             <div className="bot-chat">
                 your friendly neighborhood scholar
@@ -25,7 +40,7 @@ function BotMessage() {
             <div className="bot-links">
                 I just want to look around
             </div>
-            
+
         </div>
     )
 }
