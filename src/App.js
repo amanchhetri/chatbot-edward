@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css';
-import Message from './components/Message/Message'
+import Message from './components/Message/Message';
+import LeadForm from './components/LeadForm/LeadForm';
 
 // messages = [
 //   _id: Optional,
@@ -86,32 +87,24 @@ class App extends Component {
   }
 
   handleLinkClick = async (optionId) => {
-    const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
-    const response = await fetch(url);
-    const body = await response.json();
-    // const widgetChatbotOption =body.widgetChatbotOption;
-    // const childOptions = widgetChatbotOption.childOptions || [];
-    const { messages: { childOptions = [] } } = body;
-    this.setState({ messages: [...this.state.messages, ...childOptions] });
+    this.setState({ showLeadForm: true });
+    // const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
+    // const response = await fetch(url);
+    // const body = await response.json();
+    // // const widgetChatbotOption =body.widgetChatbotOption;
+    // // const childOptions = widgetChatbotOption.childOptions || [];
+    // const { messages: { childOptions = [] } } = body;
+    // this.setState({ messages: [...this.state.messages, ...childOptions] });
   }
 
   render() {
-    const { messages } = this.state;
-
-    // let userMsg = null;
-    // const show = this.state.submitted;
-    // if (show) {
-    //   userMsg = <UserMessage message={this.state.finalMsg} />
-    // }
     return (
       <div className="wrapper">
         <div className="head">
           <h1>Chat with Edward</h1>
         </div>
-        {/* <span className="edward-logo" /> */}
         <div className="chat-body">
-          <Message messages={messages} onClick={this.handleLinkClick} />
-          {/* {userMsg} */}
+          {this._getScreen()}
         </div>
         <form className="inputSubmit" onSubmit={this.handleSubmit}>
           <input
@@ -126,6 +119,14 @@ class App extends Component {
         </form>
       </div>
     )
+  }
+
+  _getScreen = () => {
+    const { showLeadForm, messages } = this.state;
+    if (showLeadForm) {
+      return (<LeadForm />);
+    }
+    return <Message messages={messages} onClick={this.handleLinkClick} />;
   }
 
 }
