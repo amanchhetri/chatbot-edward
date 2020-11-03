@@ -1,0 +1,47 @@
+.bot-chat {
+    padding: 3px;
+    margin: 5px;
+    float: left;
+    max-width: 90%;
+    display: table;
+    clear: both;
+    margin-left: 15px;
+    background-color: #edefed;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  
+.bot-links span{
+  padding: 3px;
+  padding: 3px;
+  margin: 5px;
+  float: left;
+  max-width: 90%;
+  display: table;
+  clear: both;
+  color: white;
+
+  margin-left: 15px;
+  border-radius: 8px;
+  font-size: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+  
+
+.user-chat {
+    padding: 3px;
+    margin: 5px;
+    float: right;
+    max-width: 70%;
+    background-color: rgb(39, 39, 39);
+    border-radius: 8px;
+    color: white;
+    margin-right: 15px;
+    display: table;
+    clear: both;
+    font-size: 15px;
+  }
+  
+  

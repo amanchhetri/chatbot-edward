@@ -41,7 +41,7 @@ h1 {
   border-radius: 20px;
 }
 
-.bot-chat {
+/* .bot-chat {
   padding: 3px;
   margin: 5px;
   float: left;
@@ -66,7 +66,7 @@ h1 {
   display: table;
   clear: both;
   font-size: 15px;
-}
+} */
 
 .inputSubmit {
   width: 100%;
@@ -84,7 +84,7 @@ h1 {
   margin: 7px 0 10px 10px;
 }
 
-.bot-links {
+/* .bot-links {
   padding: 3px;
   padding: 3px;
   margin: 5px;
@@ -99,7 +99,7 @@ h1 {
   font-size: 15px;
   text-decoration: underline;
   cursor: pointer;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -124,7 +124,7 @@ h1 {
   margin-top: 10px;
 }
 
-.edward-logo {
+/* .edward-logo {
   background-image: url("./scholar.png");
   position: absolute;
   top: 16%;
@@ -134,9 +134,9 @@ h1 {
   background-size: cover;
   width: 75px;
   height: 75px;
-}
+} */
 
-.send-button {
+/* .send-button {
   background-image: url("./send-button.png");
   position: absolute;
   background-repeat: no-repeat;
@@ -147,4 +147,4 @@ h1 {
   right: 3%;
   top: 88%;
   cursor: pointer;
-}
+} */
