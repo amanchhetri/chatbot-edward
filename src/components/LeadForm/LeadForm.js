@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './LeadForm.css';
 
 const validEmailRegex = RegExp(
+  // eslint-disable-next-line
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
 const validateForm = errors => {
@@ -25,23 +26,6 @@ class LeadForm extends Component {
     }
   }
 
-  // handleValidation() {
-  //   let {name, email, phone} = this.state;
-  //   let errors = {};
-  //   let formValid = true;
-
-  //   if(!name) {
-  //     formValid = false
-  //     errors['name'] = "Cannot be empty!";
-  //   }
-
-  //   if(name.value < 3 ){
-  //     formValid = false
-  //     errors['name'] = 'Name must be at least 3 characters long!'
-  //   }
-  //   return formValid;
-  // }
-
   handleChange = (event) => {
     //this.setState({[e.target.name]: e.target.value})
     const {name, value} = event.target;
@@ -62,7 +46,7 @@ class LeadForm extends Component {
         break;
       case 'phone': 
         errors.phone = 
-          value.length < 10
+          value.length < 10 || value.length > 10
             ? 'Phone number is not valid!'
             : '';
         break;
@@ -77,10 +61,11 @@ class LeadForm extends Component {
     e.preventDefault();
 
     // const { name, email, phone } = this.state;
-
-    // TODO: add check for name, email and phone
     if(validateForm(this.state.errors)) {
       alert('Valid Form')
+      const { name, email, phone } = this.state;
+      const userData = { name, email, phone };
+      this.props.onSubmit(userData);
     }else{
       alert('Invalid Form')
     }
@@ -99,21 +84,18 @@ class LeadForm extends Component {
         <form onSubmit={this.handleSubmit} noValidate>
           <div>
             <label htmlFor="name">Name</label>
-            <input type="text" name="name" value={name} onChange={this.handleChange} noValidate/>
-            {errors.name.length > 0 && 
-                <span className='error'>{errors.name}</span>}
+            {errors.name.length > 0 && <span className='error'>{errors.name}</span>}
+            <input type="text" name="name" value={name} onChange={this.handleChange} autoComplete="off" noValidate/>
           </div>
           <div>
             <label htmlFor="email">E-Mail Id</label>  
-            <input type="email" name="email" value={email} onChange={this.handleChange} noValidate/>
-            {errors.email.length > 0 && 
-                <span className='error'>{errors.email}</span>}
+            {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
+            <input type="email" name="email" value={email} onChange={this.handleChange} autoComplete="off" noValidate/>
           </div>
           <div>
             <label htmlFor="phone">Phone No.</label>
-            <input type="number" name="phone" value={phone} onChange={this.handleChange} noValidate/>
-            {errors.phone.length > 0 && 
-                <span className='error'>{errors.phone}</span>}
+            {errors.phone.length > 0 && <span className='error'>{errors.phone}</span>}
+            <input type="number" className="phone" name="phone" value={phone} onChange={this.handleChange} autoComplete="off" noValidate/>            
           </div>
           <div className="submit-button">
             <input type="submit" value="Submit"/>

@@ -29,7 +29,8 @@ input[type="email"], input[type="text"], input[type="number"] {
       text-align: center;
       text-decoration: none;
       border-style: none;
-        border-radius: 30px;
+      border-radius: 30px;
+      margin-top: 20px;
   }
 
   .submit-button{
@@ -37,7 +38,21 @@ input[type="email"], input[type="text"], input[type="number"] {
   }
 
   .error {
-      color: red;
-      font-size: 10px;
-      margin: 0px 8px;
+      color: rgb(197, 29, 29);
+      font-size: 12px;
+      float: right;
+      margin-right: 22px;
+      margin-top: 4px;
+  }
+
+  .phone {
+    -moz-appearance: textfield;
+  }
+  .phone::-webkit-inner-spin-button {
+    display: none;
+  }
+  .phone::-webkit-outer-spin-button,
+  .phone::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
