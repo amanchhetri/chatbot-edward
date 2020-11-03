@@ -65,7 +65,8 @@ class App extends Component {
       finalMsg: '',
       submitted: false,
       messages: INIT_MESSAGES,
-      showLeadForm: false
+      showLeadForm: false,
+      optId: ''
     }
   }
 
@@ -85,37 +86,21 @@ class App extends Component {
   handleLinkClick = async optionId => {
     if (!this.isLeadTaken) {
       this.isLeadTaken = true;
-      this.setState({ showLeadForm: true });
+      // save optionsId Here
+      this.setState({ showLeadForm: true, optId: optionId});
     }
     else {
-      const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
-      const response = await fetch(url);
-      const body = await response.json();
-      const { options } = body;
-
-      let formatedMessages = [];
-
-      options.forEach(item => {
-        const { _id, label, optionInfo } = item;
-        if (optionInfo) {
-          formatedMessages.push({
-            _id: _id + "_info", message: optionInfo, type: "label", from: "bot"
-          });
-        }
-        if (label) {
-          formatedMessages.push({
-            _id, message: label, type: "link", from: "bot"
-          });
-        }
-      });
-
-      this.setState({ messages: [...this.state.messages, ...formatedMessages] });
+      this.fetchChildOptions(optionId);
     }
   }
 
   handleLeadFormSubmit = (userData) => {
     this.setState({ showLeadForm: false });
     console.log("userData", userData);
+    // SKiping userData saving
+    // get optionId from 
+    const optionId = this.state.optId;
+    this.fetchChildOptions(optionId);
   }
 
   render() {
@@ -148,6 +133,32 @@ class App extends Component {
       return (<LeadForm onSubmit={this.handleLeadFormSubmit} />);
     }
     return <Message messages={messages} onClick={this.handleLinkClick} />;
+  }
+
+  fetchChildOptions = async (optionId) => {
+    /// copy paste code
+    const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
+      const response = await fetch(url);
+      const body = await response.json();
+      const { options } = body;
+
+      let formatedMessages = [];
+
+      options.forEach(item => {
+        const { _id, label, optionInfo } = item;
+        if (optionInfo) {
+          formatedMessages.push({
+            _id: _id + "_info", message: optionInfo, type: "label", from: "bot"
+          });
+        }
+        if (label) {
+          formatedMessages.push({
+            _id, message: label, type: "link", from: "bot"
+          });
+        }
+      });
+
+    this.setState({ messages: [...this.state.messages, ...formatedMessages] });
   }
 
 }
