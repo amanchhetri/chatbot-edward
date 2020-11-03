@@ -60,34 +60,6 @@ const messages = [
   }
 ];
 
-const widgetStartingOptions = [
-  {
-    _id: "5f9fdbd9951c83251a9c4a79",
-    label: "Test1",
-    optionInfo: "TestInfo",
-    __v: 0,
-    createdAt: "2020-11-02T10:13:45.610Z"
-  },
-  {
-    _id: "5f9fdc7d002ee5259ab96d8c",
-    label: "Test2",
-    optionInfo: "TestInfo2",
-    __v: 0,
-    createdAt: "2020-11-02T10:16:29.080Z"
-  }
-];
-
-// messages = [
-//   _id: Optional,
-//   message: String,
-//   type: Link | Label,
-//   from: "User" | "Bot"
-// ]
-
-const messages = [];
-
-
-
 class App extends Component {
 
   constructor(props) {
@@ -96,7 +68,6 @@ class App extends Component {
       message: '',
       finalMsg: '',
       submitted: false,
-      // botMessages: widgetStartingOptions,
       messages
     }
   }
