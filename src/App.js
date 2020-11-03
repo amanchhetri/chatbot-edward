@@ -66,7 +66,7 @@ class App extends Component {
       submitted: false,
       messages: INIT_MESSAGES,
       showLeadForm: false,
-      optId: ''
+      selectedOptionId: null
     }
   }
 
@@ -83,11 +83,11 @@ class App extends Component {
     })
   }
 
-  handleLinkClick = async optionId => {
+  handleLinkClick = (optionId) => {
     if (!this.isLeadTaken) {
       this.isLeadTaken = true;
       // save optionsId Here
-      this.setState({ showLeadForm: true, optId: optionId});
+      this.setState({ showLeadForm: true, selectedOptionId: optionId });
     }
     else {
       this.fetchChildOptions(optionId);
@@ -98,9 +98,8 @@ class App extends Component {
     this.setState({ showLeadForm: false });
     console.log("userData", userData);
     // SKiping userData saving
-    // get optionId from 
-    const optionId = this.state.optId;
-    this.fetchChildOptions(optionId);
+    const { selectedOptionId } = this.state;
+    this.fetchChildOptions(selectedOptionId);
   }
 
   render() {
@@ -136,27 +135,31 @@ class App extends Component {
   }
 
   fetchChildOptions = async (optionId) => {
-    /// copy paste code
+    if (optionId) {
+      // TODO: show error msg
+      return null;
+    }
+
     const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
-      const response = await fetch(url);
-      const body = await response.json();
-      const { options } = body;
+    const response = await fetch(url);
+    const body = await response.json();
+    const { optiuns } = body;
 
-      let formatedMessages = [];
+    let formatedMessages = [];
 
-      options.forEach(item => {
-        const { _id, label, optionInfo } = item;
-        if (optionInfo) {
-          formatedMessages.push({
-            _id: _id + "_info", message: optionInfo, type: "label", from: "bot"
-          });
-        }
-        if (label) {
-          formatedMessages.push({
-            _id, message: label, type: "link", from: "bot"
-          });
-        }
-      });
+    options.forEach(item => {
+      const { _id, label, optionInfo } = item;
+      if (optionInfo) {
+        formatedMessages.push({
+          _id: _id + "_info", message: optionInfo, type: "label", from: "bot"
+        });
+      }
+      if (label) {
+        formatedMessages.push({
+          _id, message: label, type: "link", from: "bot"
+        });
+      }
+    });
 
     this.setState({ messages: [...this.state.messages, ...formatedMessages] });
   }
