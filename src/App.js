@@ -47,6 +47,7 @@ const INIT_MESSAGES = [
     from: "bot"
   },
   {
+    _id: '5f9fsad9951c83251a9c4a89',
     message: "Hello, I am new here",
     type: "label",
     from: "user"
@@ -63,7 +64,8 @@ class App extends Component {
       message: '',
       finalMsg: '',
       submitted: false,
-      messages: INIT_MESSAGES
+      messages: INIT_MESSAGES,
+      showLeadForm: false
     }
   }
 
@@ -111,6 +113,10 @@ class App extends Component {
     }
   }
 
+  handleToggleForm = () => {
+    this.setState({ showLeadForm: false})
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -138,7 +144,7 @@ class App extends Component {
   _getScreen = () => {
     const { showLeadForm, messages } = this.state;
     if (showLeadForm) {
-      return (<LeadForm />);
+      return (<LeadForm onSubmit={this.handleToggleForm} />);
     }
     return <Message messages={messages} onClick={this.handleLinkClick} />;
   }

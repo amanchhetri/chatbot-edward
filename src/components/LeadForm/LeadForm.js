@@ -23,30 +23,32 @@ class LeadForm extends Component {
       email: this.state.email,
       contact: this.state.contact
     }
-    console.log(userData)
+    console.log(userData);
+
   }
 
 
   render() { 
+    const {onSubmit} = this.props;
     const {name, email, contact} = this.state;
     return (
       <div>
         <p>Sign Up so that we can provide you the best information.</p>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={() => onSubmit()}>
           <div>
-            <label for="name">Name</label>
+            <label htmlFor="name">Name</label>
             <input type="text" name="name" value={name} onChange={this.handleChange}/>
           </div>
           <div>
-            <label for="email">E-Mail Id</label>  
+            <label htmlFor="email">E-Mail Id</label>  
             <input type="email" name="email" value={email} onChange={this.handleChange}/>
           </div>
           <div>
-            <label for="contact">Contact No.</label>
+            <label htmlFor="contact">Contact No.</label>
             <input type="number" name="contact" value={contact} onChange={this.handleChange}/>
           </div>
           <div className="submit-button">
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"/>
           </div>
         </form> 
       </div>
