@@ -1,6 +1,31 @@
 import React from 'react'
 //import './BotMessage.css'
 
+export function Message(props) {
+    const { messages = [], onLinkClick } = props;
+    return (
+        <div>
+            {messages.map(message => {
+                const { _id, type, from, message } = message;
+
+                if (from === "bot") {
+                    if (type === "label") {
+                        return (<div className="bot-chat">{message}</div>);
+                    } else {
+                        return (
+                            <div className="bot-links">
+                                <span onClick={() => onLinkClick(_id)}>{message}</span>
+                            </div>
+                        );                   
+                    }
+                } else {
+                    return (<div className="user-chat">{message}</div>);
+                }
+            })}
+        </div>
+    );
+}
+
 function BotMessage(props) {
     const { botMessages, onClick } = props;
 

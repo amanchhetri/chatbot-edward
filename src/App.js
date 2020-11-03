@@ -10,7 +10,6 @@ const widgetStartingOptions = [
     optionInfo: "TestInfo",
     __v: 0,
     createdAt: "2020-11-02T10:13:45.610Z"
-
   },
   {
     _id: "5f9fdc7d002ee5259ab96d8c",
@@ -21,6 +20,16 @@ const widgetStartingOptions = [
   }
 ];
 
+// messages = [
+//   _id: Optional,
+//   message: String,
+//   type: Link | Label,
+//   from: "User" | "Bot"
+// ]
+
+const messages = [];
+
+
 
 class App extends Component {
 
@@ -30,7 +39,8 @@ class App extends Component {
       message: '',
       finalMsg: '',
       submitted: false,
-      botMessages: widgetStartingOptions
+      // botMessages: widgetStartingOptions,
+      messages
     }
   }
 
@@ -48,12 +58,12 @@ class App extends Component {
   }
 
   render() {
-    const { botMessages } = this.state;
-    let userMsg = null;
-    const show = this.state.submitted;
-    if (show) {
-      userMsg = <UserMessage message={this.state.finalMsg} />
-    }
+    const { botMessages, messages } = this.state;
+    // let userMsg = null;
+    // const show = this.state.submitted;
+    // if (show) {
+    //   userMsg = <UserMessage message={this.state.finalMsg} />
+    // }
     return (
       <div className="wrapper">
         <div className="head">
@@ -61,8 +71,9 @@ class App extends Component {
         </div>
         <span className="edward-logo" />
         <div className="chat-body">
-          <BotMessage botMessages={botMessages} onClick={this._handleLinkClick} />
-          {userMsg}
+          {/* <BotMessage botMessages={botMessages} onClick={this._handleLinkClick} /> */}
+          {/* {userMsg} */}
+          <Messages messages={messages} onLinkClick={this._handleLinkClick} />
         </div>
         <form className="inputSubmit" onSubmit={this.handleSubmit}>
           <input
