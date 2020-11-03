@@ -143,7 +143,7 @@ class App extends Component {
     const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
     const response = await fetch(url);
     const body = await response.json();
-    const { optiuns } = body;
+    const { options } = body;
 
     let formatedMessages = [];
 
