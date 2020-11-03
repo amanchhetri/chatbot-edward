@@ -18,13 +18,13 @@ class LeadForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const userData = {
-      name: this.state.name,
-      email: this.state.email,
-      contact: this.state.contact
-    }
-    console.log(userData);
+    const { name, email, contact } = this.state;
 
+    // TODO: add check for name, email and phone
+
+    const userData = { name, email, contact };
+
+    this.props.onSubmit(userData);
   }
 
 
@@ -34,7 +34,7 @@ class LeadForm extends Component {
     return (
       <div>
         <p>Sign Up so that we can provide you the best information.</p>
-        <form onSubmit={() => onSubmit()}>
+        <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
             <input type="text" name="name" value={name} onChange={this.handleChange}/>

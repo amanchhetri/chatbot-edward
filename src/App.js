@@ -113,8 +113,9 @@ class App extends Component {
     }
   }
 
-  handleToggleForm = () => {
-    this.setState({ showLeadForm: false})
+  handleLeadFormSubmit = (userData) => {
+    this.setState({ showLeadForm: false });
+    console.log("userData", userData);
   }
 
   render() {
@@ -144,7 +145,7 @@ class App extends Component {
   _getScreen = () => {
     const { showLeadForm, messages } = this.state;
     if (showLeadForm) {
-      return (<LeadForm onSubmit={this.handleToggleForm} />);
+      return (<LeadForm onSubmit={this.handleLeadFormSubmit} />);
     }
     return <Message messages={messages} onClick={this.handleLinkClick} />;
   }
