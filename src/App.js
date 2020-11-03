@@ -3,65 +3,59 @@ import './App.css';
 import Message from './components/Message/Message';
 import LeadForm from './components/LeadForm/LeadForm';
 
-// messages = [
-//   _id: Optional,
-//   message: String,
-//   type: Link | "Label",
-//   from: "User" | "Bot"
-// ]
-
-const messages = [
+const INIT_MESSAGES = [
   {
-    _id: '5f9fdbd9951c83251a9c4a19',
+    _id: '5f9fdbd9951c83251a9c4a19_info',
     message: "Hello, dear students my name is Sir Edward ",
     type: "label",
     from: "bot"
   },
   {
-    _id: '5f9fdbd9951c83251a9c1229',
+    _id: '5f9fdbd9951c83251a9c1229_info',
     message: "your friendly neighborhood scholar ",
     type: "label",
     from: "bot"
   },
   {
-    _id: '5f9fdbd9951123251a9c4a39',
+    _id: '5f9fdbd9951123251a9c4a39_info',
     message: "How may I help you??? ",
     type: "label",
     from: "bot"
   },
   {
-    _id: '5f9fsad9951c83251a9c4a49',
+    _id: '5fa112713cdb458f948d63c0',
     message: "Sign me up for next session",
-    type: "link"  ,
+    type: "link",
     from: "bot"
   },
   {
     _id: '5f9fsad9951c83251a9c4a59',
     message: "I want to learn more about this ",
-    type: "link"  ,
+    type: "link",
     from: "bot"
   },
   {
     _id: '5f9fsad9951c83251a9c4a69',
     message: "I just want to speak to someone",
-    type: "link"  ,
+    type: "link",
     from: "bot"
   },
   {
     _id: '5f9fsad9951c83251a9c4a79',
     message: "I just want to look around",
-    type: "link"  ,
+    type: "link",
     from: "bot"
   },
   {
-    _id: '5s2fsad9951c83251a9c4a89',
     message: "Hello, I am new here",
-    type: "label"  ,
+    type: "label",
     from: "user"
   }
 ];
 
 class App extends Component {
+
+  isLeadTaken = false;
 
   constructor(props) {
     super(props);
@@ -69,7 +63,7 @@ class App extends Component {
       message: '',
       finalMsg: '',
       submitted: false,
-      messages
+      messages: INIT_MESSAGES
     }
   }
 
@@ -86,15 +80,35 @@ class App extends Component {
     })
   }
 
-  handleLinkClick = async (optionId) => {
-    this.setState({ showLeadForm: true });
-    // const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
-    // const response = await fetch(url);
-    // const body = await response.json();
-    // // const widgetChatbotOption =body.widgetChatbotOption;
-    // // const childOptions = widgetChatbotOption.childOptions || [];
-    // const { messages: { childOptions = [] } } = body;
-    // this.setState({ messages: [...this.state.messages, ...childOptions] });
+  handleLinkClick = async optionId => {
+    if (!this.isLeadTaken) {
+      this.isLeadTaken = true;
+      this.setState({ showLeadForm: true });
+    }
+    else {
+      const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
+      const response = await fetch(url);
+      const body = await response.json();
+      const { options } = body;
+
+      let formatedMessages = [];
+
+      options.forEach(item => {
+        const { _id, label, optionInfo } = item;
+        if (optionInfo) {
+          formatedMessages.push({
+            _id: _id + "_info", message: optionInfo, type: "label", from: "bot"
+          });
+        }
+        if (label) {
+          formatedMessages.push({
+            _id, message: label, type: "link", from: "bot"
+          });
+        }
+      });
+
+      this.setState({ messages: [...this.state.messages, ...formatedMessages] });
+    }
   }
 
   render() {
@@ -131,4 +145,4 @@ class App extends Component {
 
 }
 
-export default App
+export default App;
