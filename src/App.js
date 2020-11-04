@@ -75,12 +75,10 @@ class App extends Component {
     }
   }
 
-  handleLeadFormSubmit = (userData) => {
+  handleLeadFormSubmit = async (userData) => {
     this.setState({ showLeadForm: false });
-    console.log("userData", userData);
-    // SKiping userData saving
-    const { selectedOptionId } = this.state;
-    this.fetchChildOptions(selectedOptionId);
+    await this.sendLeadFormData(userData);
+    this.fetchChildOptions(this.state.selectedOptionId);
   }
 
   render() {
@@ -166,6 +164,19 @@ class App extends Component {
       this.setState({ showBotTyping: false });
     }
   }
+
+  sendLeadFormData = async (userData) => {
+    try {
+      const url = "";
+      const response = await fetch(url, { method: "POST" });
+      const body = await response.json();
+    }
+    catch (error) {
+      console.log("sendLeadFormData", error);
+    }
+    return true;
+  }
+
 }
 
 export default App;
