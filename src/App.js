@@ -46,16 +46,12 @@ class App extends Component {
 
   isLeadTaken = false;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: '',
-      finalMsg: '',
-      submitted: false,
-      messages: INIT_MESSAGES,
-      showLeadForm: false,
-      selectedOptionId: null
-    }
+  state = {
+    userMessage: '',
+    messages: INIT_MESSAGES,
+    showLeadForm: false,
+    selectedOptionId: null,
+    showBotTyping: false
   }
 
   handleChange = (e) => {
@@ -64,17 +60,14 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({
-      finalMsg: this.state.message,
-      message: '',
-      submitted: true
-    })
+    const { messages, userMessage } = this.state;
+    const newMessage = [...messages, { message: userMessage, type: "label", from: "user" }];
+    this.setState({ messages: newMessage, userMessage: '' });
   }
 
   handleLinkClick = (optionId) => {
     if (!this.isLeadTaken) {
       this.isLeadTaken = true;
-      // save optionsId Here
       this.setState({ showLeadForm: true, selectedOptionId: optionId });
     }
     else {
@@ -91,6 +84,7 @@ class App extends Component {
   }
 
   render() {
+    const { userMessage = "" } = this.state;
     return (
       <div className="wrapper">
         <div className="head">
@@ -105,8 +99,9 @@ class App extends Component {
             className="inputText"
             placeholder="Enter your text..."
             onChange={this.handleChange}
-            value={this.state.message}
+            value={userMessage}
             name="message"
+            placeholder="Ask question here"
           />
           {/* <span onClick={this.handleSubmit} className="send-button" /> */}
         </form>
@@ -115,53 +110,69 @@ class App extends Component {
   }
 
   _getScreen = () => {
-    const { showLeadForm, messages } = this.state;
+    const { showLeadForm, messages, showBotTyping } = this.state;
     if (showLeadForm) {
       return (<LeadForm onSubmit={this.handleLeadFormSubmit} />);
     }
-    return <Message messages={messages} onClick={this.handleLinkClick} />;
+    return (
+      <Message
+        messages={messages}
+        onClick={this.handleLinkClick}
+        showBotTyping={showBotTyping}
+      />
+    );
   }
 
   fetchChildOptions = async (optionId) => {
-    if (!optionId) {
-      // TODO: show error msg
-      return null;
-    }
+    this.setState({ showBotTyping: true });
+    try {
+      const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
+      const response = await fetch(url);
+      const body = await response.json();
+      const { option } = body;
 
-    const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
-    const response = await fetch(url);
-    const body = await response.json();
-    const { option } = body;
+      const { _id, optionInfo, childOptions } = option;
 
-    const { _id, optionInfo, childOptions } = option;
+      let formatedMessages = [];
 
-    let formatedMessages = [];
-
-    if (optionInfo) {
-      formatedMessages.push({
-        _id, message: optionInfo, type: "label", from: "bot"
-      });
-    }
-
-    childOptions.forEach(item => {
-      const { _id, label } = item;
-      if (label) {
+      if (optionInfo) {
         formatedMessages.push({
-          _id, message: label, type: "link", from: "bot"
+          _id, message: optionInfo, type: "label", from: "bot"
         });
       }
-    });
 
-    this.setState({ messages: [...this.state.messages, ...formatedMessages] }, () => {
-      setTimeout(() => scrollToBottom("messages_div"), 0);
-    });
+      childOptions.forEach(item => {
+        const { _id, label } = item;
+        if (label) {
+          formatedMessages.push({
+            _id, message: label, type: "link", from: "bot"
+          });
+        }
+      });
+
+      const newState = {
+        showBotTyping: false, messages: [...this.state.messages, ...formatedMessages]
+      };
+
+      await delay(5000);
+
+      this.setState(newState, async () => {
+        await delay(1);
+        scrollToBottom("messages_div");
+      });
+    }
+    catch (error) {
+      console.log("error", error);
+      this.setState({ showBotTyping: false });
+    }
   }
-
 }
 
 export default App;
 
-function scrollToBottom (id) {
+function scrollToBottom(id) {
   var div = document.getElementById(id);
   if (div) div.scrollTop = div.scrollHeight - div.clientHeight;
 }
+
+const delay = duration => new Promise(r => setTimeout(r, duration));
