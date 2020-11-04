@@ -124,7 +124,7 @@ class App extends Component {
   }
 
   fetchChildOptions = async (optionId) => {
-    this.setState({ showBotTyping: true });
+    this.setState({ showBotTyping: true }, () => scrollToBottom("messages_div"));
     try {
       const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
       const response = await fetch(url);
