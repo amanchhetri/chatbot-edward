@@ -88,12 +88,12 @@ class LeadForm extends Component {
             <input type="text" name="name" value={name} onChange={this.handleChange} autoComplete="off" noValidate/>
           </div>
           <div>
-            <label htmlFor="email">E-Mail Id</label>  
+            <label htmlFor="email">Email</label>  
             {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
             <input type="email" name="email" value={email} onChange={this.handleChange} autoComplete="off" noValidate/>
           </div>
           <div>
-            <label htmlFor="phone">Phone No.</label>
+            <label htmlFor="phone">Phone</label>
             {errors.phone.length > 0 && <span className='error'>{errors.phone}</span>}
             <input type="number" className="phone" name="phone" value={phone} onChange={this.handleChange} autoComplete="off" noValidate/>            
           </div>

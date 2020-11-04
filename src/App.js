@@ -106,7 +106,7 @@ class App extends Component {
     return (
       <div className="wrapper">
         <div className="head">
-          <h1>Chat with Edward</h1>
+          <h1>Chat with Staff</h1>
         </div>
         <div className="chat-body">
           {this._getScreen()}
