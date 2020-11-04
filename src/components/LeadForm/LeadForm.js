@@ -1,91 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {useForm} from 'react-hook-form';
 import './LeadForm.css';
 
-// const validEmailRegex = RegExp(
-//   // eslint-disable-next-line
-//   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-// );
-// const validateForm = errors => {
-//   let valid = true;
-//   Object.values(errors).forEach(val => val.length > 0 && (valid = false));
-//   return valid;
-// };
-
 function LeadForm(props) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    phone: ''
-  })
+  const { handleSubmit, register, errors, formState: { isSubmitting }} = useForm();
 
-  //const handleChange = (e) => {
-    // const {name, value} = event.target;
-    // let {errors} = this.state;
-
-    // switch (name) {
-    //   case 'name': 
-    //     errors.name = 
-    //       value.length < 3
-    //         ? 'Name must be at least 3 characters long!'
-    //         : '';
-    //     break;
-    //   case 'email': 
-    //     errors.email = 
-    //       validEmailRegex.test(value)
-    //         ? ''
-    //         : 'Email is not valid!';
-    //     break;
-    //   case 'phone': 
-    //     errors.phone = 
-    //       value.length < 10 || value.length > 10
-    //         ? 'Phone number is not valid!'
-    //         : '';
-    //     break;
-    //   default:
-    //     break;
-    // }
-
-    // this.setState({errors, [name]: value});
-  //}
-
- const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // if(validateForm(this.state.errors)) {
-    //   alert('Valid Form')
-
-      //const { name, email, phone } = this.state;
-      const userData = { name, email, phone };
-      props.onSubmit(userData);
-    // }else{
-    //   alert('Invalid Form')
-    // }
-  }
+  const onSubmit = userData => props.onSubmit(userData);
 
     return (
       <div>
         <p>Sign Up so that we can provide you the best information.</p>
-        <form onSubmit={handleSubmit} noValidate>
-          <div>
-            <label htmlFor="name">Name</label>
-            {errors.name.length > 0 && <span className='error'>{errors.name}</span>}
-            <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} autoComplete="off" noValidate/>
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>  
-            {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
-            <input type="email" name="email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" noValidate/>
-          </div>
-          <div>
-            <label htmlFor="phone">Phone</label>
-            {errors.phone.length > 0 && <span className='error'>{errors.phone}</span>}
-            <input type="number" className="phone" name="phone" value={phone} onChange={e => setPhone(e.target.value)} autoComplete="off" noValidate/>            
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} >
+            <label>Name</label>
+            {errors.name && errors.name.type === "required" && <span className="error">This is required!</span>}
+            {errors.name && errors.name.type === "minLength" && <span className="error">Name must be atleast 3 letters long!</span> }
+            <input type="text" name="name" ref={register({ required: true, minLength: 3 })}  />
+          
+            <label>Email</label>
+            {errors.email && errors.email.type === "required" && <span className="error">This is required!</span>} 
+            {errors.email && errors.email.type === "pattern" && <span className="error">Invalid Email Address!</span>}
+            {/* eslint-disable-next-line */} 
+            <input type="email" name="email" ref={register({ required: true, pattern: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i })} />
+          
+            <label>Phone</label>
+            {errors.phone && errors.phone.type === "required" && <span className="error">This is required!</span>}
+            {errors.phone && errors.phone.type === "minLength" && <span className="error">Invalid Phone Number!</span> }
+            {errors.phone && errors.phone.type === "maxLength" && <span className="error">Invalid Phone Number!</span> }
+            <input type="number" className="phone" name="phone" ref={register({ required: true, minLength:10, maxLength:10 })}/>            
+      
           <div className="submit-button">
-            <input type="submit" value="Submit"/>
+            <input type="submit" disabled={isSubmitting}/>
           </div>
         </form> 
       </div>
