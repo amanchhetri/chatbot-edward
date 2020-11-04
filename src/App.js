@@ -6,19 +6,7 @@ import LeadForm from './components/LeadForm/LeadForm';
 const INIT_MESSAGES = [
   {
     _id: '5f9fdbd9951c83251a9c4a19_info',
-    message: "Hello, dear students my name is Sir Edward ",
-    type: "label",
-    from: "bot"
-  },
-  {
-    _id: '5f9fdbd9951c83251a9c1229_info',
-    message: "your friendly neighborhood scholar ",
-    type: "label",
-    from: "bot"
-  },
-  {
-    _id: '5f9fdbd9951123251a9c4a39_info',
-    message: "How may I help you??? ",
+    message: "Hello, dear students",
     type: "label",
     from: "bot"
   },
@@ -108,7 +96,7 @@ class App extends Component {
         <div className="head">
           <h1>Chat with Staff</h1>
         </div>
-        <div className="chat-body">
+        <div className="chat-body" id="messages_div">
           {this._getScreen()}
         </div>
         <form className="inputSubmit" onSubmit={this.handleSubmit}>
@@ -143,17 +131,20 @@ class App extends Component {
     const url = `http://localhost:8000/api/widget-chatbot-options/${optionId}`
     const response = await fetch(url);
     const body = await response.json();
-    const { options } = body;
+    const { option } = body;
+
+    const { _id, optionInfo, childOptions } = option;
 
     let formatedMessages = [];
 
-    options.forEach(item => {
-      const { _id, label, optionInfo } = item;
-      if (optionInfo) {
-        formatedMessages.push({
-          _id: _id + "_info", message: optionInfo, type: "label", from: "bot"
-        });
-      }
+    if (optionInfo) {
+      formatedMessages.push({
+        _id, message: optionInfo, type: "label", from: "bot"
+      });
+    }
+
+    childOptions.forEach(item => {
+      const { _id, label } = item;
       if (label) {
         formatedMessages.push({
           _id, message: label, type: "link", from: "bot"
@@ -161,9 +152,16 @@ class App extends Component {
       }
     });
 
-    this.setState({ messages: [...this.state.messages, ...formatedMessages] });
+    this.setState({ messages: [...this.state.messages, ...formatedMessages] }, () => {
+      setTimeout(() => scrollToBottom("messages_div"), 0);
+    });
   }
 
 }
 
 export default App;
+
+function scrollToBottom (id) {
+  var div = document.getElementById(id);
+  if (div) div.scrollTop = div.scrollHeight - div.clientHeight;
+}
