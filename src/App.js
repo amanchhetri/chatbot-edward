@@ -78,6 +78,8 @@ class App extends Component {
   handleLeadFormSubmit = (userData) => {
     this.setState({ showLeadForm: false });
     console.log("userData", userData);
+    // Todo async
+
     // SKiping userData saving
     const { selectedOptionId } = this.state;
     this.fetchChildOptions(selectedOptionId);
