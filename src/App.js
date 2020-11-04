@@ -135,7 +135,7 @@ class App extends Component {
   }
 
   fetchChildOptions = async (optionId) => {
-    if (optionId) {
+    if (!optionId) {
       // TODO: show error msg
       return null;
     }
